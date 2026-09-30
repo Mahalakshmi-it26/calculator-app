@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Calculator"
+description = "A tactile calculator app with basic and scientific calculation modes, history, themes, and keyboard support."
+version = "1.0.0"
+id = "artifacts/calculator-app"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19160
+
+[services.development]
+run = "pnpm --filter @workspace/calculator-app run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/calculator-app", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/calculator-app/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19160"
+BASE_PATH = "/"
